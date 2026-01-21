@@ -1,13 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Thợ Săn Số Oxi Hóa - Alchemy Edition</title>
-    
     <style>
-        /* --- CSS UPDATE: SỬA HIỂN THỊ ION (NGOẶC VUÔNG) --- */
         :root {
             --bg-color: #1a1a2e;
             --card-bg: #16213e;
@@ -34,7 +31,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
+            min-height: 100dvh;
             overflow: hidden;
             touch-action: none;
         }
@@ -42,68 +40,56 @@
         .game-container {
             width: 95%;
             max-width: 700px;
-            max-height: 98vh; 
             background: var(--card-bg);
             border: 2px solid var(--accent-gold);
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(255, 215, 0, 0.2), inset 0 0 50px rgba(0,0,0,0.5);
-            padding: 10px 15px;
+            padding: 15px;
             position: relative;
             text-align: center;
             display: flex;
             flex-direction: column;
-            justify-content: space-between; 
         }
 
         .game-title-small {
-            font-family: 'Segoe UI', serif;
             font-weight: bold;
             color: var(--accent-gold);
             font-size: 1.3rem;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
             text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
             letter-spacing: 1px;
             border-bottom: 1px solid rgba(255, 215, 0, 0.2);
-            padding-bottom: 2px;
+            padding-bottom: 5px;
         }
 
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
-            color: white;
+            margin-bottom: 10px;
             font-size: 0.9rem;
             font-weight: bold;
             background: rgba(0,0,0,0.2);
-            padding: 5px 10px;
+            padding: 8px 12px;
             border-radius: 8px;
         }
 
         .level-badge {
             background: var(--accent-neon);
-            padding: 3px 8px;
+            padding: 4px 10px;
             border-radius: 6px;
             border: 1px solid var(--accent-gold);
             color: var(--accent-gold);
-            font-size: 0.8rem;
-        }
-
-        .timer-display {
-            font-family: monospace;
-            font-size: 1.1rem;
-            color: #4ecca3;
         }
 
         .progress-container {
             width: 100%;
-            height: 6px;
+            height: 8px;
             background: #0f3460;
-            border-radius: 3px;
-            margin-bottom: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
             border: 1px solid rgba(255, 215, 0, 0.3);
             overflow: hidden;
-            flex-shrink: 0;
         }
 
         .progress-bar {
@@ -113,48 +99,33 @@
             transition: width 0.5s ease;
         }
 
-        .molecule-wrapper {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-
         .molecule-display {
             display: flex;
             justify-content: center;
-            align-items: flex-end; /* Các phần tử căn đáy */
-            margin: 5px 0;
-            font-family: 'Segoe UI', sans-serif;
-            position: relative;
+            align-items: flex-end;
+            margin: 10px 0;
             background: rgba(0, 0, 0, 0.2);
-            padding: 10px;
+            padding: 20px;
             border-radius: 12px;
             border: 1px solid rgba(255, 215, 0, 0.3);
-            min-height: 140px;
-            width: 100%;
+            min-height: 160px;
         }
 
-        /* Style cho dấu ngoặc vuông */
         .bracket {
-            font-size: 4.5rem; /* Ngoặc thật to */
+            font-size: 4.5rem;
             color: rgba(255, 255, 255, 0.4);
             font-weight: 300;
-            margin: 0 2px;
-            line-height: 0.8; /* Co gọn chiều cao dòng để căn chỉnh tốt hơn */
-            transform: translateY(8px); /* Đẩy xuống một chút cho cân */
+            margin: 0 5px;
+            line-height: 0.8;
+            transform: translateY(10px);
         }
 
-        /* Style mới cho điện tích (nằm ngoài ngoặc) */
         .ion-charge-text {
             font-size: 1.8rem;
             color: var(--wrong);
             font-weight: bold;
-            align-self: flex-start; /* Đẩy lên trên cùng của khung chứa (tạo hiệu ứng mũ) */
-            margin-top: 15px; /* Căn chỉnh khoảng cách từ trên xuống */
-            margin-left: 2px;
+            align-self: flex-start;
+            margin-top: 15px;
             text-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
         }
 
@@ -162,8 +133,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 0 1px;
-            position: relative;
+            margin: 0 5px;
         }
 
         .top-slot {
@@ -171,8 +141,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 2px;
-            width: 100%;
+            margin-bottom: 5px;
         }
 
         .oxidation-number {
@@ -182,8 +151,8 @@
         }
 
         .target-zone {
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             border: 2px dashed var(--accent-gold);
             border-radius: 8px;
             display: flex;
@@ -193,72 +162,40 @@
             font-size: 1.3rem;
             animation: pulse 2s infinite;
             background: rgba(255, 215, 0, 0.05);
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .target-zone.hovered {
-            background: rgba(46, 204, 113, 0.3);
-            border-style: solid;
-            border-color: var(--correct);
-            transform: scale(1.1);
         }
 
         .target-zone.filled {
             border-style: solid;
-            background: transparent;
-            color: var(--accent-gold);
             animation: none;
-        }
-
-        .symbol-slot {
-            display: flex;
-            align-items: baseline;
-            justify-content: center;
-            height: 45px;
         }
 
         .symbol {
             font-weight: bold;
-            color: white;
-            font-size: 2.4rem;
-            text-shadow: 0 0 10px var(--accent-neon);
+            font-size: 2.5rem;
             line-height: 1;
         }
 
         .subscript {
-            font-size: 1.4rem;
-            color: #ddd;
-            margin-left: 1px;
-            font-weight: bold;
-            line-height: 1;
-        }
-        
-        .status-text {
-            min-height: 25px;
-            color: #bbb;
-            font-size: 0.95rem;
-            margin: 5px 0;
-            font-style: italic;
-            padding: 0 5px;
+            font-size: 1.5rem;
+            margin-left: 2px;
+            align-self: flex-end;
         }
 
         .stone-pouch {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             background: rgba(0,0,0,0.3);
-            padding: 15px;
+            padding: 20px;
             border-radius: 15px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            min-height: 90px;
-            flex-shrink: 0;
+            margin-top: 10px;
+            min-height: 100px;
         }
 
         .stone {
-            width: 48px;
-            height: 48px;
+            width: 50px;
+            height: 50px;
             background: radial-gradient(circle at 30% 30%, #4ecca3, #0f3460);
             border: 2px solid var(--accent-gold);
             border-radius: 50%;
@@ -266,34 +203,54 @@
             justify-content: center;
             align-items: center;
             font-weight: bold;
-            font-size: 1.1rem;
-            color: white;
+            font-size: 1.2rem;
             cursor: grab;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.5);
-            transition: transform 0.2s;
-            touch-action: none;
-            z-index: 10;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
         }
-
-        .stone:active { transform: scale(1.1); }
 
         .stone-dragging {
             position: fixed;
             pointer-events: none;
             z-index: 9999;
-            opacity: 0.9;
             width: 60px;
             height: 60px;
-            font-size: 1.3rem;
-            box-shadow: 0 0 15px var(--accent-gold);
             background: radial-gradient(circle at 30% 30%, #4ecca3, #0f3460);
             border: 2px solid var(--accent-gold);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: white;
             font-weight: bold;
+            color: white;
+            box-shadow: 0 0 15px var(--accent-gold);
+        }
+
+        .overlay-screen {
+            position: absolute;
+            inset: 0;
+            background: rgba(22, 33, 62, 0.98);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            border-radius: 13px;
+            padding: 20px;
+        }
+
+        .hidden { display: none; }
+
+        .btn {
+            background: linear-gradient(45deg, #ffd700, #b8860b);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1a1a2e;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
         @keyframes pulse {
@@ -302,162 +259,54 @@
             100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
         }
 
-        @keyframes shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            30% { transform: translate(3px, 2px) rotate(0deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
-            70% { transform: translate(3px, 1px) rotate(-1deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
-        }
-        .shake { animation: shake 0.5s; border-color: var(--wrong); }
-
         .correct-anim { animation: glowGreen 0.5s forwards; }
         @keyframes glowGreen {
-            0% { box-shadow: 0 0 5px var(--correct); transform: scale(1); }
-            50% { box-shadow: 0 0 20px var(--correct); transform: scale(1.2); }
-            100% { box-shadow: 0 0 5px var(--correct); transform: scale(1); }
+            50% { transform: scale(1.2); box-shadow: 0 0 20px var(--correct); }
         }
-
-        /* Minus 5 Animation */
-        .minus-points {
-            position: absolute;
-            color: var(--wrong);
-            font-weight: bold;
-            font-size: 1.5rem;
-            animation: floatUpFade 1s forwards;
-            pointer-events: none;
-            z-index: 50;
-        }
-
-        @keyframes floatUpFade {
-            0% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 0; transform: translateY(-30px); }
-        }
-
-        .overlay-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(22, 33, 62, 0.95);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            border-radius: 15px;
-            padding: 20px;
-        }
-        .overlay-screen.hidden { display: none; }
-
-        .btn {
-            background: linear-gradient(45deg, #ffd700, #b8860b);
-            border: none;
-            padding: 12px 30px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #1a1a2e;
-            border-radius: 30px;
-            cursor: pointer;
-            margin-top: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        .btn:hover { transform: translateY(-3px); }
-
-        .big-title {
-            font-size: 2rem;
-            color: var(--accent-gold);
-            margin-bottom: 10px;
-            text-shadow: 0 0 10px var(--accent-gold);
-            font-family: 'Segoe UI', serif;
-        }
-
-        .score-display {
-            font-size: 3rem;
-            color: var(--correct);
-            margin: 15px 0;
-            font-family: monospace;
-        }
-        
-        .timer-result {
-            font-size: 1.3rem;
-            color: #4ecca3;
-            margin-top: 5px;
-            font-family: monospace;
-        }
-
-        .confetti-piece {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #ffd700;
-            top: 50%;
-            left: 50%;
-            opacity: 0;
-            pointer-events: none;
-            z-index: 200;
-        }
-        @keyframes confetti-pop {
-            0% { transform: translate(0, 0) scale(1); opacity: 1; }
-            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
-        }
-
     </style>
 </head>
 <body>
 
     <div class="game-container">
-        <!-- Tên game hiển thị cố định -->
         <div class="game-title-small">THỢ SĂN SỐ OXI HÓA</div>
 
         <div class="header">
             <span class="level-badge" id="level-title">LV 1</span>
-            <span class="timer-display">⏱ <span id="timer-display">00:00</span></span>
-            <span class="score-box">ĐIỂM: <span id="score-display">0</span></span>
+            <span>⏱ <span id="timer-display">00:00</span></span>
+            <span>ĐIỂM: <span id="score-display">0</span></span>
         </div>
 
         <div class="progress-container">
             <div class="progress-bar" id="progress-bar"></div>
         </div>
 
-        <div class="molecule-wrapper">
-            <div class="status-text" id="status-text">Tìm số oxi hóa của nguyên tố bí ẩn...</div>
-            <div class="molecule-display" id="molecule-area"></div>
-        </div>
+        <div id="status-text" style="font-style: italic; margin-bottom: 5px; color: #aaa;">Đang tải...</div>
+        
+        <div class="molecule-display" id="molecule-area"></div>
 
         <div class="stone-pouch" id="stone-pouch"></div>
 
-        <!-- Start Screen -->
         <div class="overlay-screen" id="start-screen">
-            <div class="big-title">THỢ SĂN<br>SỐ OXI HÓA</div>
-            <p style="font-size: 1.1rem; color: #ddd; margin-bottom: 5px;">Chinh phục 3 Cấp Độ</p>
-            <p style="font-size: 0.9rem; color: #aaa;">Kéo viên đá phép thuật vào ô trống</p>
+            <h1 style="color: var(--accent-gold); text-align: center;">THỢ SĂN<br>SỐ OXI HÓA</h1>
+            <p>Kéo đá năng lượng vào vị trí dấu hỏi</p>
             <button class="btn" onclick="startGame()">Bắt Đầu</button>
         </div>
 
-        <!-- Level Up Screen -->
         <div class="overlay-screen hidden" id="level-screen">
-            <div class="big-title">XUẤT SẮC!</div>
-            <p style="font-size: 1.2rem; color: var(--correct);">Bạn đã vượt qua cấp độ này.</p>
+            <h2>XUẤT SẮC!</h2>
             <button class="btn" onclick="nextLevel()">Cấp Độ Tiếp Theo</button>
         </div>
 
-        <!-- End Screen -->
         <div class="overlay-screen hidden" id="end-screen">
-            <div class="big-title">ĐẠI SƯ GIẢ KIM!</div>
-            <div style="font-size: 1.2rem;">Tổng điểm:</div>
-            <div class="score-display" id="final-score">0</div>
-            <div class="timer-result">Thời gian: <span id="final-time">00:00</span></div>
-            <button class="btn" onclick="startGame()">Chơi Lại Từ Đầu</button>
+            <h2>ĐẠI SƯ GIẢ KIM!</h2>
+            <p>Điểm của bạn: <span id="final-score" style="font-size: 2rem; color: var(--correct);">0</span></p>
+            <p>Thời gian: <span id="final-time">00:00</span></p>
+            <button class="btn" onclick="startGame()">Chơi Lại</button>
         </div>
     </div>
 
     <script>
-        // --- DỮ LIỆU 3 LEVEL ---
         const levels = [
-            // LEVEL 1
             [
                 { id: '1-1', elements: [{ symbol: 'H', sub: '2', ox: '+1' }, { symbol: 'S', sub: '', ox: '?', isTarget: true }, { symbol: 'O', sub: '4', ox: '-2' }], charge: '', answer: '+6' },
                 { id: '1-2', elements: [{ symbol: 'H', sub: '', ox: '+1' }, { symbol: 'N', sub: '', ox: '?', isTarget: true }, { symbol: 'O', sub: '3', ox: '-2' }], charge: '', answer: '+5' },
@@ -465,7 +314,6 @@
                 { id: '1-4', elements: [{ symbol: 'N', sub: '', ox: '?', isTarget: true }, { symbol: 'H', sub: '3', ox: '+1' }], charge: '', answer: '-3' },
                 { id: '1-5', elements: [{ symbol: 'Na', sub: '', ox: '+1' }, { symbol: 'Cl', sub: '', ox: '?', isTarget: true }], charge: '', answer: '-1' }
             ],
-            // LEVEL 2
             [
                 { id: '2-1', elements: [{ symbol: 'Mn', sub: '', ox: '?', isTarget: true }, { symbol: 'O', sub: '4', ox: '-2' }], charge: '-', answer: '+7' },
                 { id: '2-2', elements: [{ symbol: 'Cr', sub: '2', ox: '?', isTarget: true }, { symbol: 'O', sub: '7', ox: '-2' }], charge: '2-', answer: '+6' },
@@ -473,7 +321,6 @@
                 { id: '2-4', elements: [{ symbol: 'Fe', sub: '', ox: '?', isTarget: true }, { symbol: 'Cl', sub: '3', ox: '-1' }], charge: '', answer: '+3' },
                 { id: '2-5', elements: [{ symbol: 'S', sub: '', ox: '?', isTarget: true }, { symbol: 'O', sub: '4', ox: '-2' }], charge: '2-', answer: '+6' }
             ],
-            // LEVEL 3
             [
                 { id: '3-1', elements: [{ symbol: 'H', sub: '2', ox: '+1' }, { symbol: 'O', sub: '2', ox: '?', isTarget: true }], charge: '', answer: '-1' },
                 { id: '3-2', elements: [{ symbol: 'Fe', sub: '', ox: '+2' }, { symbol: 'S', sub: '2', ox: '?', isTarget: true }], charge: '', answer: '-1' },
@@ -483,39 +330,15 @@
             ]
         ];
 
-        // --- GAME STATE ---
-        let currentLevelIndex = 0;
-        let currentProblemIndex = 0;
-        let score = 0;
-        let currentLevelProblems = [];
-        
-        let startTime;
-        let timerInterval;
-        let totalTimeStr = "00:00";
+        let currentLevelIndex = 0, currentProblemIndex = 0, score = 0;
+        let timerInterval, startTime, totalTimeStr = "00:00";
+        let draggedItem = null, originalItem = null;
 
-        // --- DOM ---
-        const moleculeArea = document.getElementById('molecule-area');
-        const stonePouch = document.getElementById('stone-pouch');
-        const statusText = document.getElementById('status-text');
-        const levelTitle = document.getElementById('level-title');
-        const scoreDisplay = document.getElementById('score-display');
-        const progressBar = document.getElementById('progress-bar');
-        const timerDisplay = document.getElementById('timer-display');
-        const startScreen = document.getElementById('start-screen');
-        const levelScreen = document.getElementById('level-screen');
-        const endScreen = document.getElementById('end-screen');
-        const finalScore = document.getElementById('final-score');
-        const finalTime = document.getElementById('final-time');
-
-        // --- GAME LOGIC ---
         function startGame() {
-            score = 0;
-            currentLevelIndex = 0;
-            scoreDisplay.textContent = score;
-            startScreen.classList.add('hidden');
-            endScreen.classList.add('hidden');
-            levelScreen.classList.add('hidden');
-            
+            score = 0; currentLevelIndex = 0;
+            document.getElementById('score-display').textContent = "0";
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('end-screen').classList.add('hidden');
             startTimer();
             initLevel();
         }
@@ -523,330 +346,148 @@
         function startTimer() {
             clearInterval(timerInterval);
             startTime = Date.now();
-            timerDisplay.textContent = "00:00";
-            
             timerInterval = setInterval(() => {
                 const elapsed = Math.floor((Date.now() - startTime) / 1000);
-                const minutes = Math.floor(elapsed / 60).toString().padStart(2, '0');
-                const seconds = (elapsed % 60).toString().padStart(2, '0');
-                totalTimeStr = `${minutes}:${seconds}`;
-                timerDisplay.textContent = totalTimeStr;
+                const m = Math.floor(elapsed / 60).toString().padStart(2, '0');
+                const s = (elapsed % 60).toString().padStart(2, '0');
+                totalTimeStr = `${m}:${s}`;
+                document.getElementById('timer-display').textContent = totalTimeStr;
             }, 1000);
-        }
-
-        function stopTimer() {
-            clearInterval(timerInterval);
         }
 
         function initLevel() {
             currentProblemIndex = 0;
-            currentLevelProblems = [...levels[currentLevelIndex]].sort(() => 0.5 - Math.random());
-            
-            const levelNames = ["TẬP SỰ", "CAO THỦ", "ĐẠI SƯ"];
-            levelTitle.textContent = "LV " + (currentLevelIndex + 1) + ": " + levelNames[currentLevelIndex];
-            levelTitle.style.background = currentLevelIndex === 0 ? "#0f3460" : (currentLevelIndex === 1 ? "#d35400" : "#8e44ad");
-
+            const names = ["TẬP SỰ", "CAO THỦ", "ĐẠI SƯ"];
+            document.getElementById('level-title').textContent = `LV ${currentLevelIndex + 1}: ${names[currentLevelIndex]}`;
             loadQuestion();
         }
 
         function loadQuestion() {
-            if (currentProblemIndex >= currentLevelProblems.length) {
-                handleLevelComplete();
+            const levelProbs = levels[currentLevelIndex];
+            if (currentProblemIndex >= levelProbs.length) {
+                if (currentLevelIndex < levels.length - 1) {
+                    document.getElementById('level-screen').classList.remove('hidden');
+                } else {
+                    endGame();
+                }
                 return;
             }
-            
-            const problem = currentLevelProblems[currentProblemIndex];
-            const totalInLevel = currentLevelProblems.length;
-            progressBar.style.width = ((currentProblemIndex) / totalInLevel * 100) + "%";
-            
-            statusText.textContent = "Kéo viên đá năng lượng vào vị trí dấu hỏi";
-            statusText.style.color = "#bbb";
-            
-            renderMolecule(problem);
-            renderStones(problem.answer);
-        }
-
-        function handleLevelComplete() {
-            if (currentLevelIndex < levels.length - 1) {
-                levelScreen.classList.remove('hidden');
-                triggerConfetti();
-            } else {
-                endGame();
-            }
+            const prob = levelProbs[currentProblemIndex];
+            document.getElementById('progress-bar').style.width = (currentProblemIndex / levelProbs.length * 100) + "%";
+            document.getElementById('status-text').textContent = "Tìm số oxi hóa còn thiếu...";
+            renderMolecule(prob);
+            renderStones(prob.answer);
         }
 
         function nextLevel() {
             currentLevelIndex++;
-            levelScreen.classList.add('hidden');
+            document.getElementById('level-screen').classList.add('hidden');
             initLevel();
         }
 
-        function renderMolecule(problem) {
-            moleculeArea.innerHTML = '';
-            
-            // Logic mới cho hiển thị Ion: [ ... ] charge
-            const hasCharge = !!problem.charge;
-
-            // Dấu ngoặc mở
-            if (hasCharge) {
-                const leftBracket = document.createElement('span');
-                leftBracket.className = 'bracket';
-                leftBracket.textContent = '[';
-                moleculeArea.appendChild(leftBracket);
+        function renderMolecule(prob) {
+            const area = document.getElementById('molecule-area');
+            area.innerHTML = '';
+            if (prob.charge) {
+                area.innerHTML += '<span class="bracket">[</span>';
             }
-
-            // Render các nguyên tố
-            problem.elements.forEach(el => {
+            prob.elements.forEach(el => {
                 const block = document.createElement('div');
                 block.className = 'element-block';
-
-                const topSlot = document.createElement('div');
-                topSlot.className = 'top-slot';
-                if (el.isTarget) {
-                    const target = document.createElement('div');
-                    target.className = 'target-zone';
-                    target.textContent = '?';
-                    target.dataset.target = 'true';
-                    topSlot.appendChild(target);
-                } else {
-                    const oxNum = document.createElement('div');
-                    oxNum.className = 'oxidation-number';
-                    oxNum.textContent = el.ox;
-                    topSlot.appendChild(oxNum);
-                }
-                block.appendChild(topSlot);
-
-                const botSlot = document.createElement('div');
-                botSlot.className = 'symbol-slot';
-                const symbol = document.createElement('span');
-                symbol.className = 'symbol';
-                symbol.textContent = el.symbol;
-                botSlot.appendChild(symbol);
-                if (el.sub) {
-                    const sub = document.createElement('span');
-                    sub.className = 'subscript';
-                    sub.textContent = el.sub;
-                    botSlot.appendChild(sub);
-                }
-                block.appendChild(botSlot);
-
-                moleculeArea.appendChild(block);
+                block.innerHTML = `
+                    <div class="top-slot">${el.isTarget ? '<div class="target-zone">?</div>' : '<div class="oxidation-number">'+el.ox+'</div>'}</div>
+                    <div class="symbol-slot"><span class="symbol">${el.symbol}</span>${el.sub ? '<span class="subscript">'+el.sub+'</span>' : ''}</div>
+                `;
+                area.appendChild(block);
             });
-
-            // Dấu ngoặc đóng và điện tích
-            if (hasCharge) {
-                const rightBracket = document.createElement('span');
-                rightBracket.className = 'bracket';
-                rightBracket.textContent = ']';
-                moleculeArea.appendChild(rightBracket);
-
-                const chargeEl = document.createElement('div');
-                chargeEl.className = 'ion-charge-text'; // Sử dụng class mới
-                chargeEl.textContent = problem.charge;
-                moleculeArea.appendChild(chargeEl);
+            if (prob.charge) {
+                area.innerHTML += `<span class="bracket">]</span><div class="ion-charge-text">${prob.charge}</div>`;
             }
         }
 
-        function renderStones(correctAnswer) {
-            stonePouch.innerHTML = '';
-            let options = new Set();
-            options.add(correctAnswer);
-            
-            let safetyCount = 0;
-            while (options.size < 5 && safetyCount < 50) {
-                safetyCount++;
-                let val = parseInt(correctAnswer);
-                let randomOffset = Math.floor(Math.random() * 5) - 2; 
-                let fakeVal = val + randomOffset;
-                
-                if (fakeVal < -4) fakeVal = -4;
-                if (fakeVal > 7) fakeVal = 7;
-
-                let fakeValStr = fakeVal > 0 ? '+' + fakeVal : '' + fakeVal;
-                if (fakeVal === 0) fakeValStr = '0';
-                
-                if (fakeValStr !== correctAnswer) options.add(fakeValStr);
+        function renderStones(correct) {
+            const pouch = document.getElementById('stone-pouch');
+            pouch.innerHTML = '';
+            let vals = new Set([correct]);
+            while(vals.size < 5) {
+                let v = parseInt(correct) + Math.floor(Math.random() * 7) - 3;
+                let s = v > 0 ? '+' + v : '' + v;
+                if (v === 0) s = '0';
+                vals.add(s);
             }
-
-            while(options.size < 5) {
-                options.add(['+1', '+2', '-1', '-2', '0', '+3', '+4', '+5', '+6', '+7'][Math.floor(Math.random()*10)]);
-            }
-
-            const stoneValues = Array.from(options).sort(() => 0.5 - Math.random());
-            stoneValues.forEach(val => {
-                const stone = document.createElement('div');
-                stone.className = 'stone';
-                stone.textContent = val;
-                stone.dataset.value = val;
-                stone.addEventListener('mousedown', handleDragStart);
-                stone.addEventListener('touchstart', handleDragStart, {passive: false});
-                stonePouch.appendChild(stone);
+            Array.from(vals).sort(() => Math.random() - 0.5).forEach(v => {
+                const s = document.createElement('div');
+                s.className = 'stone';
+                s.textContent = v;
+                s.onmousedown = s.ontouchstart = handleDragStart;
+                pouch.appendChild(s);
             });
         }
-
-        // --- DRAG & DROP ---
-        let draggedItem = null;
-        let originalItem = null;
-        let touchOffsetX = 0;
-        let touchOffsetY = 0;
 
         function handleDragStart(e) {
             if (e.type === 'touchstart') e.preventDefault();
-            originalItem = e.currentTarget; 
-            const rect = originalItem.getBoundingClientRect();
-            
-            const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-            const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
-
-            touchOffsetX = clientX - rect.left;
-            touchOffsetY = clientY - rect.top;
-
+            originalItem = e.target;
+            const clientX = e.clientX || e.touches[0].clientX;
+            const clientY = e.clientY || e.touches[0].clientY;
             draggedItem = originalItem.cloneNode(true);
-            draggedItem.className = 'stone-dragging'; 
+            draggedItem.className = 'stone-dragging';
             document.body.appendChild(draggedItem);
-            updateDraggedPosition(clientX, clientY);
-            
-            originalItem.style.opacity = '0';
+            moveAt(clientX, clientY);
+            originalItem.style.opacity = '0.3';
 
-            if (e.type === 'mousedown') {
-                document.addEventListener('mousemove', handleDragMove);
-                document.addEventListener('mouseup', handleDragEnd);
-            } else {
-                document.addEventListener('touchmove', handleDragMove, {passive: false});
-                document.addEventListener('touchend', handleDragEnd);
-            }
-        }
+            const onMove = (ev) => {
+                const x = ev.clientX || (ev.touches ? ev.touches[0].clientX : 0);
+                const y = ev.clientY || (ev.touches ? ev.touches[0].clientY : 0);
+                moveAt(x, y);
+            };
 
-        function handleDragMove(e) {
-            if (!draggedItem) return;
-            if (e.type === 'touchmove') e.preventDefault();
-            const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-            const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
-            updateDraggedPosition(clientX, clientY);
-            checkHoverTarget(clientX, clientY);
-        }
-
-        function updateDraggedPosition(x, y) {
-            draggedItem.style.left = (x - touchOffsetX) + 'px';
-            draggedItem.style.top = (y - touchOffsetY) + 'px';
-        }
-
-        function checkHoverTarget(x, y) {
-            draggedItem.style.display = 'none';
-            let elemBelow = document.elementFromPoint(x, y);
-            draggedItem.style.display = 'flex';
-            if (!elemBelow) return;
-            const targetZone = elemBelow.closest('.target-zone');
-            document.querySelectorAll('.target-zone').forEach(el => el.classList.remove('hovered'));
-            if (targetZone && !targetZone.classList.contains('filled')) {
-                targetZone.classList.add('hovered');
-            }
-        }
-
-        function handleDragEnd(e) {
-            if (!draggedItem) return;
-            let clientX, clientY;
-            if (e.type === 'mouseup') {
-                clientX = e.clientX;
-                clientY = e.clientY;
-            } else {
-                clientX = e.changedTouches[0].clientX;
-                clientY = e.changedTouches[0].clientY;
-            }
-            draggedItem.style.display = 'none';
-            let elemBelow = document.elementFromPoint(clientX, clientY);
-            let targetZone = elemBelow ? elemBelow.closest('.target-zone') : null;
-            
-            if (targetZone && !targetZone.classList.contains('filled')) {
-                checkAnswer(draggedItem.dataset.value, targetZone);
-            } else {
-                resetDrag();
-            }
-            document.removeEventListener('mousemove', handleDragMove);
-            document.removeEventListener('mouseup', handleDragEnd);
-            document.removeEventListener('touchmove', handleDragMove);
-            document.removeEventListener('touchend', handleDragEnd);
-        }
-
-        function resetDrag() {
-            if (draggedItem) draggedItem.remove();
-            if (originalItem) originalItem.style.opacity = '1';
-            draggedItem = null;
-            originalItem = null;
-            document.querySelectorAll('.target-zone').forEach(el => el.classList.remove('hovered'));
-        }
-
-        function checkAnswer(value, targetZone) {
-            const currentProblem = currentLevelProblems[currentProblemIndex];
-            if (value === currentProblem.answer) {
-                targetZone.textContent = value;
-                targetZone.classList.remove('hovered');
-                targetZone.classList.add('filled', 'correct-anim');
-                statusText.textContent = "Chính xác!";
-                statusText.style.color = "var(--correct)";
-                score += 10 + (currentLevelIndex * 5); 
-                scoreDisplay.textContent = score;
+            const onEnd = (ev) => {
+                document.removeEventListener('mousemove', onMove);
+                document.removeEventListener('mouseup', onEnd);
+                document.removeEventListener('touchmove', onMove);
+                document.removeEventListener('touchend', onEnd);
                 
-                triggerConfetti();
-
+                const x = ev.clientX || (ev.changedTouches ? ev.changedTouches[0].clientX : 0);
+                const y = ev.clientY || (ev.changedTouches ? ev.changedTouches[0].clientY : 0);
+                
+                draggedItem.style.display = 'none';
+                let el = document.elementFromPoint(x, y);
+                let target = el ? el.closest('.target-zone') : null;
+                
+                if (target && !target.classList.contains('filled')) {
+                    if (draggedItem.textContent === levels[currentLevelIndex][currentProblemIndex].answer) {
+                        target.textContent = draggedItem.textContent;
+                        target.classList.add('filled', 'correct-anim');
+                        score += 10;
+                        document.getElementById('score-display').textContent = score;
+                        currentProblemIndex++;
+                        setTimeout(loadQuestion, 1000);
+                    } else {
+                        score = Math.max(0, score - 5);
+                        document.getElementById('score-display').textContent = score;
+                        alert("Sai rồi! Trừ 5 điểm");
+                    }
+                }
                 draggedItem.remove();
-                draggedItem = null;
-                setTimeout(() => {
-                    currentProblemIndex++;
-                    loadQuestion();
-                }, 1500);
-            } else {
-                statusText.textContent = "Sai rồi! Bị trừ 5 điểm";
-                statusText.style.color = "var(--wrong)";
-                
-                score -= 5;
-                if (score < 0) score = 0;
-                scoreDisplay.textContent = score;
+                originalItem.style.opacity = '1';
+            };
 
-                showMinusPoints(targetZone);
-
-                targetZone.classList.add('shake');
-                setTimeout(() => targetZone.classList.remove('shake'), 500);
-                resetDrag();
-            }
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', onEnd);
+            document.addEventListener('touchmove', onMove, {passive: false});
+            document.addEventListener('touchend', onEnd);
         }
 
-        function showMinusPoints(targetZone) {
-            const rect = targetZone.getBoundingClientRect();
-            const minus = document.createElement('div');
-            minus.className = 'minus-points';
-            minus.textContent = "-5";
-            minus.style.left = (rect.left + 10) + 'px';
-            minus.style.top = (rect.top - 20) + 'px';
-            document.body.appendChild(minus);
-            setTimeout(() => minus.remove(), 1000);
-        }
-
-        function triggerConfetti() {
-            const colors = ['#ffd700', '#2ecc71', '#e74c3c', '#3498db'];
-            const container = document.body;
-            for (let i = 0; i < 40; i++) {
-                const conf = document.createElement('div');
-                conf.className = 'confetti-piece';
-                conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                const tx = (Math.random() - 0.5) * 500 + 'px';
-                const ty = (Math.random() - 0.5) * 500 + 'px';
-                conf.style.setProperty('--tx', tx);
-                conf.style.setProperty('--ty', ty);
-                conf.style.animation = 'confetti-pop 1.2s ease-out forwards';
-                container.appendChild(conf);
-                setTimeout(() => conf.remove(), 1200);
-            }
+        function moveAt(x, y) {
+            draggedItem.style.left = x - 25 + 'px';
+            draggedItem.style.top = y - 25 + 'px';
         }
 
         function endGame() {
-            stopTimer();
-            progressBar.style.width = "100%";
-            finalScore.textContent = score;
-            finalTime.textContent = totalTimeStr;
-            endScreen.classList.remove('hidden');
-            triggerConfetti();
-            setTimeout(triggerConfetti, 500);
+            clearInterval(timerInterval);
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('final-time').textContent = totalTimeStr;
+            document.getElementById('end-screen').classList.remove('hidden');
         }
     </script>
 </body>
